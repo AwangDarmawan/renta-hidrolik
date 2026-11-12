@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* =========================================
+   PRODUK CAROUSEL ANIMATION
+========================================= */
+
+@keyframes produk-carousel-animation {
+  0% {
+    visibility: visible;
+    opacity: 0;
+  }
+
+  5% {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  28% {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  33.33%,
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@keyframes produk-dot-animation {
+  0%,
+  28% {
+    background-color: #d4a017;
+    transform: scale(1.1);
+  }
+
+  33.33%,
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+/* SLIDE TIMING */
+.product-carousel-slide {
+  animation: produk-carousel-animation 15s infinite;
+}
+
+.product-slide-1,
+.product-dot-1 {
+  animation-delay: 0s;
+}
+
+.product-slide-2,
+.product-dot-2 {
+  animation-delay: 5s;
+}
+
+.product-slide-3,
+.product-dot-3 {
+  animation-delay: 10s;
+}
+
+/* DOT ANIMATION */
+.product-carousel-dot {
+  animation: produk-dot-animation 15s infinite;
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  .product-carousel-slide,
+  .product-carousel-dot {
+    animation: none;
+  }
+
+  .product-slide-1 {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .product-slide-2,
+  .product-slide-3 {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .product-dot-1 {
+    background-color: #d4a017;
+  }
+}
