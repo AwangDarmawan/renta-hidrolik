@@ -20,7 +20,7 @@ const focusStyle =
 
 export default function Navbar() {
   return (
-    <header className="w-full">
+    <header className="w-full" >
       {/* TOP BAR */}
       <div className="
       bg-linear-to-l 
@@ -128,7 +128,7 @@ export default function Navbar() {
 
             <li className="shrink-0">
               <Link
-                href="/produk"
+                href="/#rental-showcase"
                 className={`${focusStyle} font-medium text-gray-800 hover:text-black`}
               >
                 alat dan bahan  

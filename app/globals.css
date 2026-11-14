@@ -88,3 +88,13 @@
     background-color: #d4a017;
   }
 }
+
+/* Filter katalog rental */
+#rental-grid [data-category] {
+  min-width: 0;
+}
+
+/* Menghindari kartu tersembunyi tetap tampil */
+#rental-grid [hidden] {
+  display: none !important;
+}

@@ -1,126 +1,135 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Rental} from "@/app/data/Rental";
 
-const whatsappNumber = "6281234567890";
+import { RentalProduk } from "@/app/data/Rental/RentalProduk";
+
+import RentalFilter from "@/app/components/Rental/RentalFilter";
+
+import { createWhatsAppUrl } from "@/app/components/utils/WhatsappNumber";
+
+import {
+  createRentalFilterStyles,
+  toCategorySlug,
+} from "@/app/components/utils/RentalUtils";
 
 export default function RentalShowcase() {
   return (
     <section
+      id="rental-showcase"
       aria-labelledby="rental-heading"
-      className="bg-white py-12 sm:py-16 lg:py-20"
+      className="scroll-mt-24 bg-white py-12 sm:py-16 lg:py-20"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* HEADER */}
-        <header className="mb-9 text-center sm:mb-12">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#B8860B] sm:text-sm">
+        {/* Header katalog */}
+        <header className="mb-8 text-center sm:mb-10 lg:mb-12">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D4A017] sm:text-sm">
             Indonesia Projek Logistik
           </p>
 
-          <h1
+          <h2
             id="rental-heading"
             className="text-2xl font-extrabold uppercase tracking-tight text-neutral-950 sm:text-3xl lg:text-4xl"
           >
             Rental Hidrolik Kami
-          </h1>
+          </h2>
+
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-neutral-600 italic sm:text-base">
+            Temukan peralatan rental hidrolik untuk mendukung
+            kebutuhan industri dan proyek Anda.
+          </p>
 
           <div
             aria-hidden="true"
-            className="mx-auto mt-3 h-0.5 w-24 bg-[#D4A017]"
+            className="mx-auto mt-4 h-0.5 w-20 bg-[#D4A017]"
           />
         </header>
 
-        {/* PRODUCT GRID */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-          {Rental.map((item) => {
-            const message =
-              `Halo IPL, saya ingin bertanya mengenai ${item.name} dengan model ${item.code}. Mohon informasi detail dan ketersediaannya.`;
+        {/* Filter kategori */}
+        <RentalFilter />
 
-            const whatsappUrl =
-              `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        {/* Katalog rental */}
+        <div
+          id="rental-grid"
+          aria-label="Daftar peralatan rental hidrolik"
+          className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4"
+        >
+          {RentalProduk.map((item) => {
+            const message =
+              `Halo Bapak/Ibu, saya ingin bertanya mengenai ${item.name} dengan model ${item.code}. Mohon informasi detail dan ketersediaannya.`;
+
+            const whatsappUrl = createWhatsAppUrl(message);
 
             return (
               <article
                 key={item.slug}
-                className="group relative flex min-w-0 flex-col overflow-hidden border border-neutral-200 bg-white transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#D4A017] hover:shadow-lg"
+                data-category={toCategorySlug(item.category)}
+                className="group relative flex min-w-0 flex-col overflow-hidden rounded-md border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#D4A017] hover:shadow-lg"
               >
-                {/* PRODUCT IMAGE */}
+                {/* Gambar rental */}
                 <Link
                   href={`/rental/${item.slug}`}
                   aria-label={`Lihat detail ${item.name}`}
-                  className="relative block"
+                  className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D4A017]"
                 >
                   <figure className="relative aspect-square w-full overflow-hidden bg-white">
                     <Image
                       src={item.image}
                       alt={item.alt}
                       fill
-                      sizes="(max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
-                      className="object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-105 sm:p-4"
+                      sizes="(max-width: 639px) 50vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+                      className="object-contain p-2 transition-transform duration-500 group-hover:scale-105 sm:p-4"
                     />
-                  </figure>
 
-                  {/* PRODUCT BADGE */}
-                  {item.badge && (
-                    <span className="absolute right-0 top-0 bg-[#D4A017] px-2 py-1 text-[10px] font-semibold text-white sm:px-3 sm:text-xs">
-                      {item.badge}
-                    </span>
-                  )}
+                    {item.badge && (
+                      <span className="absolute right-0 top-0 bg-[#D4A017] px-2 py-1 text-[10px] font-semibold text-white sm:px-3 sm:text-xs">
+                        {item.badge}
+                      </span>
+                    )}
+                  </figure>
                 </Link>
 
-                {/* PRODUCT INFORMATION */}
+                {/* Informasi rental */}
                 <div className="flex flex-1 flex-col px-2 pb-3 pt-3 text-center sm:px-4 sm:pb-4">
-
-                  {/* PRODUCT NAME */}
-                  <Link
-                    href={`/rental/${item.slug}`}
-                    aria-label={`Lihat detail ${item.name}`}
-                    className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A017]"
-                  >
-                    <h2 className="line-clamp-2 min-h-12 text-sm font-semibold leading-relaxed text-neutral-950 transition-colors duration-300 hover:text-[#B8860B] sm:min-h-14 sm:text-base">
-                      {item.name}
-                    </h2>
-                  </Link>
-
-                  {/* BRAND */}
-                  <p className="mt-1 text-[11px] text-neutral-500 sm:text-sm">
-                    Merek:{" "}
-                    <span className="font-semibold text-neutral-700">
-                      {item.brand}
-                    </span>
-                  </p>
-
-                  {/* AVAILABILITY AND MODEL */}
-                  <p className="mt-2 text-[11px] leading-relaxed sm:text-sm">
-                    <span className="font-semibold text-green-600">
-                      <span aria-hidden="true">✔</span>{" "}
-                      {item.availability}
-                    </span>
-                    <span className="text-neutral-400"> / </span>
-                    <span className="text-neutral-700">{item.code}</span>
-                  </p>
-
-                  {/* ACTIONS */}
-                  <div className="mt-auto flex items-center gap-2 pt-4">
-
-                    {/* DETAIL */}
+                  <h3 className="line-clamp-2 min-h-10 text-sm font-bold leading-relaxed text-neutral-950 sm:min-h-12 sm:text-base">
                     <Link
                       href={`/rental/${item.slug}`}
-                      aria-label={`Lihat deskripsi lengkap ${item.name}`}
-                      className="inline-flex min-h-9 flex-1 items-center justify-center border border-[#D4A017] px-2 py-2 text-xs font-semibold text-neutral-800 transition-colors duration-300 hover:bg-[#D4A017] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A017] focus-visible:ring-offset-2 sm:text-sm"
+                      className="rounded-sm transition-colors hover:text-[#B8860B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A017] focus-visible:ring-offset-2"
+                    >
+                      {item.name}
+                    </Link>
+                  </h3>
+
+                 <p className=" text-sm font-semibold italic text-neutral-600 sm:text-base">
+                  Model:{" "}
+                  <span className="font-bold text-neutral-700">
+                    {item.code}
+                  </span>
+                </p>
+
+                  <p className="mt-2 text-sm italic leading-relaxed sm:text-base">
+                    <span className="font-semibold text-green-600">
+                      <span aria-hidden="true">✔ </span>
+                      {item.availability}
+                    </span>
+                  </p>
+
+                  {/* Tombol aksi */}
+                  <div className="mt-auto flex items-center gap-2 pt-4">
+                    <Link
+                      href={`/rental/${item.slug}`}
+                      className="inline-flex min-h-10 flex-1 items-center justify-center border border-[#D4A017] px-2 py-2 text-xs font-bold text-neutral-800 transition-colors hover:bg-[#D4A017] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A017] focus-visible:ring-offset-2 sm:text-sm rounded-3xl italic"
                     >
                       Lihat Detail
                     </Link>
 
-                    {/* WHATSAPP */}
                     <a
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Tanyakan ${item.name} melalui WhatsApp`}
-                      className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-all duration-300 hover:scale-105 hover:bg-[#20BD5A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
+                      className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition-colors hover:bg-[#20BD5A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2"
                     >
                       <svg
                         aria-hidden="true"
@@ -138,6 +147,9 @@ export default function RentalShowcase() {
           })}
         </div>
       </div>
+
+      {/* CSS filter kategori */}
+      <style>{createRentalFilterStyles()}</style>
     </section>
   );
 }

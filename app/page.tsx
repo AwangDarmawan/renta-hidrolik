@@ -11,7 +11,6 @@ export default function Home() {
   return (
       <main>
       <HeroShowcase />
-      {/* <ProfilShowcase/> */}
       <RentalCarousel/>
       <RentalShowcase/>
     </main>
